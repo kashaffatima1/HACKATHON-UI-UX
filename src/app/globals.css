@@ -6,7 +6,10 @@
 :root {
   --background: #ffffff; /* Example color */
   --foreground: #000000; /* Example color */
+<<<<<<< HEAD
   font-family: [Clash Display];
+=======
+>>>>>>> 4a9e0321b0ce98b0cf7d9797003af9b4425c0ac9
 }
 
 body {

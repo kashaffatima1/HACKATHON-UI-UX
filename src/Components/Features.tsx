@@ -10,31 +10,53 @@ const Features = () => {
     <>
       <section>
         <div className="px-4 md:px-8 py-12 mt:0  text-[#2A254B] mt-12">
+<<<<<<< HEAD
         
+=======
+          {/* Title */}
+>>>>>>> 4a9e0321b0ce98b0cf7d9797003af9b4425c0ac9
           <h1 className="text-center text-xl md:text-2xl font-semibold">
             What makes our brand different
           </h1>
 
+<<<<<<< HEAD
           <div className="flex flex-col md:flex-row gap-8 mt-12 text-base md:text-lg">
             
+=======
+          {/*  ALL Product Div */}
+          <div className="flex flex-col md:flex-row gap-8 mt-12 text-base md:text-lg">
+            {/* Product1 */}
+>>>>>>> 4a9e0321b0ce98b0cf7d9797003af9b4425c0ac9
             <div className="flex flex-col bg-gray-100 md:w-[25%] p-4 rounded-lg">
               <TbTruckDelivery size={30} className="text-[#2A254B]" />
               <p className="py-4 font-semibold">Next day as standard</p>
               <p>Order before 3pm and get your order the next day as standard.</p>
             </div>
 
+<<<<<<< HEAD
+=======
+            {/* Product2 */}
+>>>>>>> 4a9e0321b0ce98b0cf7d9797003af9b4425c0ac9
             <div className="flex flex-col bg-gray-100 md:w-[25%] p-4 rounded-lg">
               <IoIosCheckmarkCircleOutline size={30} className="text-[#2A254B]" />
               <p className="py-4 font-semibold">Made by true artisans</p>
               <p>Hand-crafted goods made with real passion and craftsmanship.</p>
             </div>
 
+<<<<<<< HEAD
+=======
+            {/* Product3*/}
+>>>>>>> 4a9e0321b0ce98b0cf7d9797003af9b4425c0ac9
             <div className="flex flex-col bg-gray-100 md:w-[25%] p-4 rounded-lg">
               <MdOutlinePriceChange size={30} className="text-[#2A254B]" />
               <p className="py-4 font-semibold">Unbeatable prices</p>
               <p>For our material and quality, you won&apos;t find better prices anywhere.</p>
             </div>
 
+<<<<<<< HEAD
+=======
+            {/* Product4*/}
+>>>>>>> 4a9e0321b0ce98b0cf7d9797003af9b4425c0ac9
             <div className="flex flex-col bg-gray-100 md:w-[25%] p-4 rounded-lg">
               <LuSprout size={30} className="text-[#2A254B]" />
               <p className="py-4 font-semibold">Recycled packaging</p>
