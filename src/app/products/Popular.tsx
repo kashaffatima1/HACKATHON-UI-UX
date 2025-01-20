@@ -6,26 +6,26 @@ interface Iproducts{
     id: number;
     title: string;
     price: string;
-    img_url: string;
+    image: string;
 }
 let product: Iproducts[] = [
     {
         id: 5,
         title: 'The popular suede sofa',
         price: '£980',
-        img_url: '/images/image1.jpg',
+        image: '/images/image1.jpg',
       },
       {
         id: 6,
         title: 'The Dendy chair',
         price: '£250',
-        img_url: '/images/DendyChair.jpg',
+        image: '/images/DendyChair.jpg',
       },
       {
         id: 7,
         title: 'The Dandy chair',
         price: '£250',
-        img_url: '/images/Chair1.jpg',
+        image: '/images/Chair1.jpg',
       },
 ]
 export default function Popular() {
@@ -38,7 +38,7 @@ export default function Popular() {
                 <div key={data.id}>
                   <Link href={`./products/${data.id}`}>
                   <Image
-                  src={data.img_url}
+                  src={data.image}
                   alt={data.title}
                   width={400}
                   height={400}

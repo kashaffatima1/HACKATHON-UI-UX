@@ -10,7 +10,7 @@ interface IProduct {
   name: string;
   description: string;
   price: number;
-  imageUrl: string;
+  image: string;
 }
 
 // Fetch and display products from Sanity
@@ -25,7 +25,7 @@ export default async function SanityProduct() {
           <div key={product.id}>
             <Link href={`./products/${product.id}`}>
               <Image
-                src={product.imageUrl}
+                src={product.image}
                 alt={product.name}
                 width={400}
                 height={400}

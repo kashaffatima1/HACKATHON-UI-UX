@@ -2,7 +2,7 @@ import { defineQuery } from "next-sanity";
 
 export const allproducts = defineQuery(`
     
-    *[_type == "product"]{
+    *[_type == "product" && _id == $id]{
     _id,
     name,
     description,
@@ -11,11 +11,11 @@ export const allproducts = defineQuery(`
     features,
     quantity,
     tags,
-    "imagesUrl" : image.asset->url,
+    "image" : image.asset->url,
     }`)
 
     export const fourPro = defineQuery(`
-    *[_type == "product][0..3]{
+    *[_type == "product" && _id == $id][0..3]{
     _id,
     name,
     description,
@@ -24,4 +24,4 @@ export const allproducts = defineQuery(`
     features,
     quantity,
     tags,
-    "imagesUrl" : image.asset->url,`)
+    "image" : image.asset->url,`)

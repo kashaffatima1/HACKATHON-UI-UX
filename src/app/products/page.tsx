@@ -7,36 +7,36 @@ interface Iproducts{
     id: number;
     title: string;
     price: string;
-    img_url: string;
+    image: string;
 }
 let product: Iproducts[] = [
     {
         id: 1,
         title: "The Dendy Chair",
         price: "£250",
-        img_url: "/images/DendyChair.jpg"
+        image: "/images/DendyChair.jpg"
     },
     {
         id: 2,
         title: "Rustic Vase Set",
         price: "£155",
-        img_url: "/images/Rustic.jpg",
+        image: "/images/Rustic.jpg",
     },
     {
         id: 3,
         title: "The Silky Vase",
         price: "£125",
-        img_url: "/images/Silky.jpg",
+        image: "/images/Silky.jpg",
       },
       {
         id: 4,
         title: "The Lucky Lamp",
         price: "£399",
-        img_url: "/images/Lamp.jpg",
+        image: "/images/Lamp.jpg",
       },
 ]
 
-export default function Products() {
+export default function New() {
     return (
         <div className="px-4 mt-0 md:px-8 py-12 text-[#2A254B] font-[Clash Display]">
       <h1 className="text-2xl font-semibold mb-8">New Ceramics</h1>
@@ -47,7 +47,7 @@ export default function Products() {
                     <div key={data.id}>
                          <Link href={`./products/${data.id}`}>
                          <Image
-                                      src={data.img_url}
+                                      src={data.image}
                                       alt={data.title}
                                       width={700}
                                       height={700}

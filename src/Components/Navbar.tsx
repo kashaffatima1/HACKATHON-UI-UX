@@ -2,8 +2,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { FaShoppingCart, FaUser, FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+import { RootState } from '../app/redux/store';
+import { useSelector } from 'react-redux';
 
 const Navbar: React.FC = () => {
+
+  const item = useSelector((state: RootState) => state.cart);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleNav = () => setIsNavOpen(!isNavOpen);
 
@@ -17,7 +21,8 @@ const Navbar: React.FC = () => {
           <p className="text-2xl font-thin">Avion</p>
         </div>
         <div className="flex items-center space-x-4">
-          <FaShoppingCart className="text-gray-900" />
+          <Link href="/cart"><FaShoppingCart className="text-gray-900" /></Link>
+          {item.length}
           <FaUser className="text-gray-900" />
           <div className="md:hidden" onClick={toggleNav}>
             {isNavOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
