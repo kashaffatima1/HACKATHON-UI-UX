@@ -1,10 +1,10 @@
 "use client";
-import { useRouter } from 'next/router';
-import React, { useState, useEffect } from "react";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { add } from "../../redux/cartslice";
+import { product as ProductType } from "@/sanity/schemaTypes/product";
 
 interface IProduct {
   id: string;
@@ -76,22 +76,15 @@ const staticProducts: IProduct[] = [
   },
 ];
 
-
-const Detail = () => {
-  const router = useRouter();
-  const { id } = router.query; // Capture the dynamic product ID
-  const [allProducts, setAllProducts] = useState<IProduct[]>([]);
+const ProductDetails = ({ productId }: { productId: string }) => {
+  const [result, setResult] = useState<IProduct | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(true); // Loading state
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Wait for the router to be fully mounted
-    if (!id) return;
-
-    // Fetch products when ID is available
+    // Fetch product details on server side using the provided `id`
     const fetchProducts = async () => {
-      setLoading(true); // Start loading
       try {
         const query = `*[_type == "product"]{
           _id,
@@ -105,37 +98,30 @@ const Detail = () => {
           "image": image.asset->url
         }`;
         const sanityProducts = await client.fetch(query);
-        const formattedSanityProducts = sanityProducts.map((product: any) => ({
-          id: product._id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          description: product.description,
-          dimensions: product.dimensions,
-          features: product.features,
-          quantity: product.quantity,
-          tags: product.tags,
-        }));
-        setAllProducts([...staticProducts, ...formattedSanityProducts]);
+        const fetchedProduct = sanityProducts.find((item: IProduct) => item.id === productId); // Use _id to match
+
+        setResult(fetchedProduct || null);
+        setLoading(false);
       } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false); // End loading
+        console.error("Error fetching product:", error);
+        setLoading(false);
       }
     };
 
     fetchProducts();
-  }, [id]); // Run effect only when `id` changes
+  }, [productId]);
 
-  const product = allProducts.find((item) => item.id === id);
-
+  // Return loading state
   if (loading) {
-    return <div>Loading...</div>; // Show a loading message while fetching data
+    return <div>Loading...</div>;
   }
 
-  if (!product) {
-    return <div>Product not found</div>; // Handle the case where the product doesn't exist
+  // Return product not found if result is null
+  if (!result) {
+    return <div>Product not found</div>;
   }
+
+  const product = result; // Now using the correct product state
 
   const increment = () => setQuantity((prev) => prev + 1);
   const decrement = () => setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
@@ -143,7 +129,7 @@ const Detail = () => {
   const handleAddToCart = () => {
     dispatch(
       add({
-        id: Number(product.id),
+        id: product.id,
         title: product.name,
         price: product.price,
         image: product.image,
@@ -183,12 +169,17 @@ const Detail = () => {
           </div>
 
           <div>
-            <ul className="list-disc list-inside space-y-1 text-[#505977]">
-              {product.features.split(",").map((feature, index) => (
-                <li key={index}>{feature}</li>
-              ))}
-            </ul>
-          </div>
+  <ul className="list-disc list-inside space-y-1 text-[#505977]">
+    {Array.isArray(product.features) ? (
+      product.features.map((feature, index) => (
+        <li key={index}>{feature}</li>
+      ))
+    ) : (
+      <li>{product.features}</li> // If features is a string, display it directly
+    )}
+  </ul>
+</div>
+
 
           <div>
             <h1 className="font-semibold text-lg lg:text-xl text-[#2A254B]">
@@ -232,6 +223,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
-
-
+export default ProductDetails;

@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center space-x-4">
           <Link href="/cart"><FaShoppingCart className="text-gray-900" /></Link>
           {item.length}
-          <FaUser className="text-gray-900" />
+          <Link href="/SignIn"><FaUser className="text-gray-900" /></Link>
           <div className="md:hidden" onClick={toggleNav}>
             {isNavOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
           </div>
