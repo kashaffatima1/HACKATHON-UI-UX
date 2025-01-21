@@ -1,4 +1,3 @@
-// Import required libraries and utilities
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { allproducts } from "@/sanity/lib/queries";
 import Image from "next/image";
@@ -14,9 +13,9 @@ interface IProduct {
 }
 
 // Fetch and display products from Sanity
-export default async function SanityProduct() {
-  // Fetch products using sanityFetch
-  const products: IProduct[] = await sanityFetch({ query: allproducts });
+export default async function SanityProduct({ productId }: { productId: string }) {
+  // Fetch product using sanityFetch with the dynamic ID
+  const products: IProduct[] = await sanityFetch({ query: allproducts(productId) });
 
   return (
     <div className="px-4 md:px-8 py-12 mt-0 text-[#2A254B] font-[Clash Display] items-center">
@@ -32,7 +31,7 @@ export default async function SanityProduct() {
                 className="w-full h-[80%] object-cover"
               />
             </Link>
-            <h2 className="text-lg font-bold text-start+">{product.name}</h2>
+            <h2 className="text-lg font-bold text-start">{product.name}</h2>
             <p className="mt-2 font-semibold text-start">{`£${product.price}`}</p>
           </div>
         ))}

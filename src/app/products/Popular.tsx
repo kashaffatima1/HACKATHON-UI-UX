@@ -33,20 +33,20 @@ export default function Popular() {
         <div className="px-4 mt-0 md:px-8 py-12 text-[#2A254B] font-[Clash Display]">
           <h1 className="text-2xl font-semibold mb-8">Our Popular Products</h1>
           <div className="md:grid-cols-3 gap-8 grid grid-cols-1 sm:grid-cols-2">
-            {product.map((data) => {
+            {product.map((product) => {
               return (
-                <div key={data.id}>
-                  <Link href={`./products/${data.id}`}>
+                <div key={product.id}>
+                  <Link href={`./products/${product.id}`}>
                   <Image
-                  src={data.image}
-                  alt={data.title}
+                  src={product.image}
+                  alt={product.title}
                   width={400}
                   height={400}
                   className="w-full h-[80%] object-cover"
                 />
                   </Link>
-                  <p className="text-lg font-bold text-start">{data.title}</p>
-                  <p className="mt-2 font-semibold text-start">{data.price}</p>
+                  <p className="text-lg font-bold text-start">{product.title}</p>
+                  <p className="mt-2 font-semibold text-start">{product.price}</p>
                   </div>
                 )
               } 

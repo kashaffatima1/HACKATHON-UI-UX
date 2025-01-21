@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import React from 'react'
 import "../../public/images/Blend.jpg"
+import Link from 'next/link'
 
 const Touch = () => {
   return (
@@ -25,9 +26,11 @@ const Touch = () => {
                 </h1>
               </div>
               <div className="my-10">
+              <Link href="/Contactus">
                 <button className="bg-[#F9F9F9] border border-gray-400 py-4 px-4 rounded-[5px] text-[#2A254B]">
                   Get in touch
                 </button>
+                </Link>
               </div>
             </div>
 

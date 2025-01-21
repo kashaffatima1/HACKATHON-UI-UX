@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 import "../../public/images/DendyChair.jpg"
+import Link from 'next/link';
 
 const Hero = () => {
   return (
@@ -13,9 +14,11 @@ const Hero = () => {
                 The furniture brand for the future with <br /> the timeless designs
               </h1>
               <div className="flex justify-center md:justify-start mt-4">
+              <Link href="/productlisting">
                 <button className="w-[170px] h-[56px] bg-gray-600 text-white border border-gray-600 font-bold hover:bg-gray-600 hover:text-white transition duration-300">
                   View collection
                 </button>
+                </Link>
               </div>
             </div>
             <div className="my-4 md:my-0">

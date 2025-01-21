@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaFacebook, FaLinkedin, FaInstagram, FaSkype, FaTwitter, FaPinterest } from 'react-icons/fa';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -19,12 +20,12 @@ const Footer = () => {
           <div className="category mb-8 md:mb-0 md:mr-16">
             <h2 className="text-lg mb-4">Categories</h2>
             <ul className="space-y-4 text-sm">
-              <li>Crockery</li>
-              <li>Furniture</li>
-              <li>Homeware</li>
-              <li>Plant pots</li>
-              <li>Chairs</li>
-              <li>Crockery</li>
+              <li><Link href="/category/Chairs">Chairs</Link></li>
+              <li><Link href="/category/Ceramics">Ceramics</Link></li>
+              <li><Link href="/category/Plant/pots">Plant pots</Link></li>
+              <li><Link href="/category/Cutlery">Cutlery</Link></li>
+              <li><Link href="/category/Tables">Tables</Link></li>
+              <li><Link href="/category/Tableware">Tableware</Link></li>
             </ul>
           </div>
           <div className="company mb-8 md:mb-0 md:mr-16">
