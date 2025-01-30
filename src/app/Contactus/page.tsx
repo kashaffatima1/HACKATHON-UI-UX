@@ -15,7 +15,7 @@ const ContactUs = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left Side: Contact Form */}
         <div className="flex flex-col justify-between space-y-6">
-          <h1 className="text-2xl font-semibold text-[#2A254B]">Contact Us</h1>
+          <h1 className="text-2xl font-semibold text-[#2A254B]">Get InTouch with us</h1>
           <p className="text-lg text-gray-700">
             We love to hear from you on our customer service, merchandise, website, or any topics you want to share with us. Your comments and suggestions will be appreciated. Please complete the form below.
           </p>

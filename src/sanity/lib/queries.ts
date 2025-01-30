@@ -1,29 +1,6 @@
-import { defineQuery } from "next-sanity";
+import { groq } from "next-sanity";
 
-export const allproducts = (id: string) => defineQuery(`
-    
-    *[_type == "product" &&  _id == "${id}"]{
-    category,
-    _id,
-    name,
-    description,
-    price,
-    dimensions,
-    features,
-    quantity,
-    tags,
-    "image" : image.asset->url,
-    }`)
+export const allProducts = groq`*[_type == "product" ]`;
+export const five = groq`*[_type == "product"][0..5]`;
+export const three = groq`*[_type == "product"][0..2]`;
 
-    export const fourPro = defineQuery(`
-    *[_type == "product"][0..3]{
-    _id,
-    name,
-    category,
-    description,
-    price,
-    dimensions,
-    features,
-    quantity,
-    tags,
-    "image" : image.asset->url,`)

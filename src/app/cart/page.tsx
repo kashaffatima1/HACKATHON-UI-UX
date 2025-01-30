@@ -1,23 +1,65 @@
 "use client";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { remove } from "../redux/cartslice";  // Import actions
-import { RootState } from "../redux/store";
-import increaseQuantity from "../redux/cartslice";
-import decreaseQuantity from "../redux/cartslice";
+import { Product } from "../../../types/products";
+import React, { useEffect, useState } from "react";
+import { getCartItems, removefromcart, updatecart } from "../actions/action";
 import Image from "next/image";
+import Swal from "sweetalert2";
+import { urlFor } from "@/sanity/lib/image";
 
-interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-  quantity: number;
-}
+const CartPage = () => {
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
-const Cartpage: React.FC = () => {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state: RootState) => state.cart);
+  // Fetch cart items on component mount
+  useEffect(() => {
+    const items = getCartItems();
+    setCartItems(items);
+  }, []);
+
+  // Handle item removal
+  const handleRemoveItem = (id: string) => {
+    Swal.fire({
+      position: "top-right",
+      icon: "warning",
+      title: "Are you sure?",
+      text: "You will not be able to recover this item!",
+      showCancelButton: true,
+      confirmButtonColor: "#22202E",
+      cancelButtonColor: "#22202E",
+      confirmButtonText: "Yes, remove it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removefromcart(id);
+        setCartItems(getCartItems());
+        Swal.fire("Removed", "Item has been removed from your cart!", "success");
+      }
+    });
+  };
+
+  // Handle quantity update
+  const handleQuantityChange = (id: string, quantity: number) => {
+    if (quantity > 0) {
+      updatecart(id, quantity);
+      setCartItems(getCartItems());
+    }
+  };
+
+  // Increment quantity
+  const handleIncrement = (id: string) => {
+    const product = cartItems.find((item) => item._id === id);
+    if (product) {
+      handleQuantityChange(id, product.quantity + 1);
+    }
+  };
+
+  // Decrement quantity
+  const handleDecrement = (id: string) => {
+    const product = cartItems.find((item) => item._id === id);
+    if (product && product.quantity > 1) {
+      handleQuantityChange(id, product.quantity - 1);
+    }
+  };
+
+  // Calculate subtotal
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -35,36 +77,35 @@ const Cartpage: React.FC = () => {
       <div className="space-y-8">
         {/* Product Section */}
         {cartItems.length > 0 ? (
-          cartItems.map((item: CartItem) => (
+          cartItems.map((item) => (
             <div
-              key={item.id}
-              className="bg-white border rounded-lg shadow-md p-4 flex justify-between items-center"
+              key={item._id}
+              className="bg-white border rounded-lg shadow-md p-4 flex flex-col sm:flex-row justify-between items-center"
             >
               {/* Product Image and Details */}
-              <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-6 w-full sm:w-auto mb-4 sm:mb-0">
                 <Image
-                  src={item.image}
-                  alt={item.title}
+                  src={urlFor(item.image).url()}
+                  alt={item.name}
                   width={80}
                   height={80}
                   className="rounded-md"
                 />
                 <div>
-                  <h3 className="text-lg font-medium">{item.title}</h3>
+                  <h3 className="text-lg font-medium">{item.name}</h3>
                   <p className="text-sm text-gray-600 mt-1">
                     A short product description.
                   </p>
-                  <p className="text-base font-semibold mt-2">
+                  <p className="text-base font-semibold mt-2 text-black">
                     £{(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
               </div>
 
               {/* Quantity Section */}
-              <div className="text-center">
+              <div className="text-center mb-4 sm:mb-0">
                 <p className="text-sm font-semibold">Quantity</p>
                 <div className="flex items-center justify-center mt-2 space-x-4">
-                  
                   <p className="text-lg font-medium">{item.quantity}</p>
                 </div>
               </div>
@@ -72,9 +113,15 @@ const Cartpage: React.FC = () => {
               {/* Total Section */}
               <div className="text-center">
                 <p className="text-sm font-semibold">Total</p>
-                <p className="text-lg font-medium mt-2">
+                <p className="text-lg font-medium mt-2 text-black">
                   £{(item.price * item.quantity).toFixed(2)}
                 </p>
+                <button
+                  onClick={() => handleRemoveItem(item._id)}
+                  className="mt-2 text-red-500 hover:text-red-700"
+                >
+                  Remove
+                </button>
               </div>
             </div>
           ))
@@ -88,7 +135,9 @@ const Cartpage: React.FC = () => {
             {/* Subtotal */}
             <div className="flex justify-between border-b pb-4">
               <span className="text-lg font-semibold">Subtotal</span>
-              <span className="text-lg font-semibold">£{subtotal.toFixed(2)}</span>
+              <span className="text-lg font-semibold text-black">
+                £{subtotal.toFixed(2)}
+              </span>
             </div>
 
             {/* Taxes and Info */}
@@ -109,4 +158,4 @@ const Cartpage: React.FC = () => {
   );
 };
 
-export default Cartpage;
+export default CartPage;

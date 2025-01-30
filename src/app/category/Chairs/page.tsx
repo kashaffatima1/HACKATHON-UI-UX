@@ -1,74 +1,54 @@
-import { client } from "@/sanity/lib/client";
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { Product } from '../../../../types/products';
+import { client } from "@/sanity/lib/client";
 import Link from "next/link";
+import { urlFor } from "@/sanity/lib/image";
 
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  dimensions: string;
-  features: string;
-  quantity: number;
-  tags: string[];
-  image: string;
-}
-
-export default async function ChairsCategoryPage() {
-  // Query to fetch only products in the "Chairs" category
-  const query = `
+const Chairquery = `
     *[_type == "product" && category->name == "Chairs"]{
       _id,
       name,
-      description,
       price,
-      dimensions,
-      features,
-      quantity,
-      tags,
+      "slug": slug.current,
       "image": image.asset->url
     }
   `;
 
-  // Fetch products directly from the client
-  const products: Product[] = await client.fetch(query);
+const ChairsCategory = () => {
+  const [products, setProducts] = useState<Product[]>([]);
 
-  if (!products || products.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-500 text-lg font-semibold">
-          No chairs found.
-        </p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    async function fetchProducts() {
+      const fetchedProducts: Product[] = await client.fetch(Chairquery);
+      setProducts(fetchedProducts);
+    }
+    fetchProducts();
+  }, []);
 
   return (
     <div className="px-4 mt-0 md:px-8 py-12 text-[#2A254B] font-[Clash Display]">
       <h1 className="text-2xl font-semibold mb-8">Chairs</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="md:grid-cols-3 gap-8 grid grid-cols-1 sm:grid-cols-2">
         {products.map((product) => (
-          <div
-            key={product.id}
-            className=" bg-white"
-          >
-            <Link href={`./products/${product.id}`}>
+          <div key={product._id}>
+            <Link href={`/products/${product.slug}`}>
               <Image
-                src={product.image}
+                src={urlFor(product.image).url()}
                 alt={product.name}
                 width={400}
                 height={400}
                 className="w-full h-[80%] object-cover"
               />
+              <h2 className="text-lg font-bold text-start">{product.name}</h2>
+              <p className="mt-2 font-semibold text-start">£{product.price}</p>
             </Link>
-            <p className="text-lg font-bold text-start">
-              {product.name}
-            </p>
-            <p className="font-semibold mt-2 text-start">£{product.price}</p>
           </div>
         ))}
       </div>
     </div>
   );
-}
+};
+
+export default ChairsCategory;

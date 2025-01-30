@@ -24,6 +24,8 @@
 
   "dependencies": {
 
+    "@clerk/nextjs": "^6.10.3",
+
     "@emotion/react": "^11.13.5",
 
     "@emotion/styled": "^11.13.5",
@@ -61,6 +63,8 @@
     "slugify": "^1.6.6",
 
     "styled-components": "^6.1.14",
+
+    "sweetalert2": "^11.15.10",
 
     "tailwind-merge": "^2.6.0"
 
