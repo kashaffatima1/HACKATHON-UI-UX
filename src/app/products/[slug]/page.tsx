@@ -20,7 +20,6 @@ async function getProduct(slug: string): Promise<Product> {
       name,
       _type,
       image,
-      quantity,
       price,
       description,
       features,

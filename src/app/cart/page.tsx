@@ -5,6 +5,9 @@ import { getCartItems, removefromcart, updatecart } from "../actions/action";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { urlFor } from "@/sanity/lib/image";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import checkout from "../checkout/page";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
@@ -64,6 +67,30 @@ const CartPage = () => {
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const router = useRouter();
+  const handleprocessed = () => {
+    Swal.fire({
+      title: "Processing Your order!",
+      text: "Please wait while we process your order.",
+      showCancelButton: true,
+      confirmButtonText: "Proceed",
+      icon: "info",
+      confirmButtonColor: "#22202E",
+      cancelButtonColor: "#22202E",
+})
+.then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      "Sucess!",
+      "Your order has been processed successfully.",
+      "success"
+    );
+    router.push("/checkout");
+    setCartItems([]);
+  };
+});
+  };
 
   return (
     <div className="bg-white min-h-screen py-10 px-4 sm:px-10 lg:px-40 text-gray-800">
@@ -147,9 +174,11 @@ const CartPage = () => {
 
             {/* Checkout Button */}
             <div className="flex justify-end">
+            <Link href="/checkout">
               <button className="bg-[#2A254B] text-white px-4 py-2 rounded-md hover:bg-slate-500 transition">
                 Go to Checkout
               </button>
+              </Link>
             </div>
           </div>
         )}
