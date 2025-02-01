@@ -11,7 +11,7 @@ export const addtocart = (product: Product) => {
     else {
         cart.push({
             ...product, quantity: 1
-        })
+    });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -29,7 +29,8 @@ export const updatecart = (productID: string, quantity: number) => {
     const productIndex = cart.findIndex(item => item._id === productID);
 
     if (productIndex > -1) {
-        cart[productIndex].quantity;
+        cart[productIndex].quantity = quantity;
+        localStorage.setItem('cart', JSON.stringify(cart));
     }
 
 }

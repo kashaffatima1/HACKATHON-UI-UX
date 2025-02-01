@@ -5,12 +5,12 @@ import { getCartItems, removefromcart, updatecart } from "../actions/action";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { urlFor } from "@/sanity/lib/image";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import checkout from "../checkout/page";
+import { useRouter } from "next/navigation"; 
+import Link from "next/link"; 
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
+  const router = useRouter();
 
   // Fetch cart items on component mount
   useEffect(() => {
@@ -68,7 +68,6 @@ const CartPage = () => {
     0
   );
 
-  const router = useRouter();
   const handleprocessed = () => {
     Swal.fire({
       title: "Processing Your order!",
@@ -78,27 +77,21 @@ const CartPage = () => {
       icon: "info",
       confirmButtonColor: "#22202E",
       cancelButtonColor: "#22202E",
-})
-.then((result) => {
-  if (result.isConfirmed) {
-    Swal.fire(
-      "Sucess!",
-      "Your order has been processed successfully.",
-      "success"
-    );
-    router.push("/checkout");
-    setCartItems([]);
-  };
-});
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Success!", "Your order has been processed successfully.", "success");
+        router.push("/checkout");
+        setCartItems([]); // Clear cart after processing
+      }
+    });
   };
 
   return (
     <div className="bg-white min-h-screen py-10 px-4 sm:px-10 lg:px-40 text-gray-800">
       {/* Header Section */}
       <div className="flex justify-center items-center mb-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center">
-          Your Shopping Cart
-        </h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-center">Your Shopping Cart</h1>
       </div>
 
       <div className="space-y-8">
@@ -120,9 +113,7 @@ const CartPage = () => {
                 />
                 <div>
                   <h3 className="text-lg font-medium">{item.name}</h3>
-                  <p className="text-sm text-gray-600 mt-1">
-                    A short product description.
-                  </p>
+                  <p className="text-sm text-gray-600 mt-1">A short product description.</p>
                   <p className="text-base font-semibold mt-2 text-black">
                     £{(item.price * item.quantity).toFixed(2)}
                   </p>
@@ -134,6 +125,8 @@ const CartPage = () => {
                 <p className="text-sm font-semibold">Quantity</p>
                 <div className="flex items-center justify-center mt-2 space-x-4">
                   <p className="text-lg font-medium">{item.quantity}</p>
+                  <button onClick={() => handleIncrement(item._id)}>+</button>
+                  <button onClick={() => handleDecrement(item._id)}>-</button>
                 </div>
               </div>
 
@@ -174,10 +167,10 @@ const CartPage = () => {
 
             {/* Checkout Button */}
             <div className="flex justify-end">
-            <Link href="/checkout">
-              <button className="bg-[#2A254B] text-white px-4 py-2 rounded-md hover:bg-slate-500 transition">
-                Go to Checkout
-              </button>
+              <Link href="/checkout">
+                <button className="bg-[#2A254B] text-white px-4 py-2 rounded-md hover:bg-slate-500 transition">
+                  Go to Checkout
+                </button>
               </Link>
             </div>
           </div>
