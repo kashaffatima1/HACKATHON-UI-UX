@@ -9,10 +9,7 @@ import { urlFor } from "@/sanity/lib/image";
 import Swal from 'sweetalert2';
 import Popular from "../might"; // Import Popular component
 
-interface ProductPageProps {
-  params: { slug: string };
-}
-
+// Function to fetch the product
 async function getProduct(slug: string): Promise<Product> {
   return client.fetch(
     groq`*[_type == "product" && slug.current == $slug][0] {
@@ -28,6 +25,7 @@ async function getProduct(slug: string): Promise<Product> {
     { slug }
   );
 }
+
 const handleaddtocart = (e: React.MouseEvent, product: Product) => {
   e.preventDefault();
   Swal.fire({
@@ -40,13 +38,20 @@ const handleaddtocart = (e: React.MouseEvent, product: Product) => {
   addtocart(product);
 };
 
+interface ProductPageProps {
+  params: { slug: string }; // Explicitly defining params type
+}
+
 export default function ProductPage({ params }: ProductPageProps) {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState<Product | null>(null);
 
-  // Fetch product data
   useEffect(() => {
-    getProduct(params.slug).then(setProduct);
+    const fetchProduct = async () => {
+      const fetchedProduct = await getProduct(params.slug);
+      setProduct(fetchedProduct);
+    };
+    fetchProduct();
   }, [params.slug]);
 
   if (!product) {

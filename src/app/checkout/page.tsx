@@ -30,23 +30,27 @@ const Checkout = () => {
         zipcode: false,
     });
 
+    // Fetch cart items and applied discount on component mount
     useEffect(() => {
         const fetchCartItems = async () => {
             const items = await getCartItems();
             setCartItems(items);
         };
         fetchCartItems();
+
         const appliedDiscount = localStorage.getItem('appliedDiscount');
         if (appliedDiscount) {
             setDiscount(Number(appliedDiscount));
         }
     }, []);
 
+    // Subtotal calculation
     const subtotal = cartItems.reduce(
         (total, item) => total + item.price * item.quantity, 0
     );
     const total = subtotal - discount;
 
+    // Handle form input changes
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormValues({
             ...formValues,
@@ -54,6 +58,7 @@ const Checkout = () => {
         });
     };
 
+    // Validate form fields
     const validateForm = () => {
         const errors = {
             firstname: !formValues.firstname,
@@ -68,6 +73,7 @@ const Checkout = () => {
         return Object.values(errors).every((error) => !error);
     };
 
+    // Handle order placement
     const handlePlaceOrder = async () => {
         if (validateForm()) {
             Swal.fire({
@@ -78,7 +84,7 @@ const Checkout = () => {
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Cancel',
                 confirmButtonColor: "#22202E",
-               cancelButtonColor: "#22202E",
+                cancelButtonColor: "#22202E",
             }).then(async (result) => {
                 if (result.isConfirmed) {
                     // Proceed with order creation
@@ -145,20 +151,72 @@ const Checkout = () => {
                 <hr className="mb-4" />
 
                 <h3 className="text-lg font-semibold">Contact Information</h3>
-                <input type="email" id="email" placeholder="Email" className="w-full border p-2 rounded mb-3" value={formValues.email} onChange={handleInput} />
-                <input type="text" id="phone" placeholder="Phone Number" className="w-full border p-2 rounded mb-3" value={formValues.phone} onChange={handleInput} />
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email"
+                    className={`w-full border p-2 rounded mb-3 ${formErrors.email ? 'border-red-500' : ''}`}
+                    value={formValues.email}
+                    onChange={handleInput}
+                />
+                <input
+                    type="text"
+                    id="phone"
+                    placeholder="Phone Number"
+                    className={`w-full border p-2 rounded mb-3 ${formErrors.phone ? 'border-red-500' : ''}`}
+                    value={formValues.phone}
+                    onChange={handleInput}
+                />
 
                 <h3 className="text-lg font-semibold mt-4">Delivery Details</h3>
-                <input type="text" id="firstname" placeholder="First Name" className="w-full border p-2 rounded mb-3" value={formValues.firstname} onChange={handleInput} />
-                <input type="text" id="lastname" placeholder="Last Name" className="w-full border p-2 rounded mb-3" value={formValues.lastname} onChange={handleInput} />
-                <input type="text" id="address" placeholder="Address" className="w-full border p-2 rounded mb-3" value={formValues.address} onChange={handleInput} />
-                <input type="text" id="city" placeholder="City" className="w-full border p-2 rounded mb-3" value={formValues.city} onChange={handleInput} />
-                <input type="text" id="zipcode" placeholder="Zipcode" className="w-full border p-2 rounded mb-3" value={formValues.zipcode} onChange={handleInput} />
+                <input
+                    type="text"
+                    id="firstname"
+                    placeholder="First Name"
+                    className={`w-full border p-2 rounded mb-3 ${formErrors.firstname ? 'border-red-500' : ''}`}
+                    value={formValues.firstname}
+                    onChange={handleInput}
+                />
+                <input
+                    type="text"
+                    id="lastname"
+                    placeholder="Last Name"
+                    className={`w-full border p-2 rounded mb-3 ${formErrors.lastname ? 'border-red-500' : ''}`}
+                    value={formValues.lastname}
+                    onChange={handleInput}
+                />
+                <input
+                    type="text"
+                    id="address"
+                    placeholder="Address"
+                    className={`w-full border p-2 rounded mb-3 ${formErrors.address ? 'border-red-500' : ''}`}
+                    value={formValues.address}
+                    onChange={handleInput}
+                />
+                <input
+                    type="text"
+                    id="city"
+                    placeholder="City"
+                    className={`w-full border p-2 rounded mb-3 ${formErrors.city ? 'border-red-500' : ''}`}
+                    value={formValues.city}
+                    onChange={handleInput}
+                />
+                <input
+                    type="text"
+                    id="zipcode"
+                    placeholder="Zipcode"
+                    className={`w-full border p-2 rounded mb-3 ${formErrors.zipcode ? 'border-red-500' : ''}`}
+                    value={formValues.zipcode}
+                    onChange={handleInput}
+                />
 
                 <h3 className="text-lg font-semibold mt-4">Payment</h3>
                 <div className="border p-2 rounded mb-3">Cash on Delivery</div>
 
-                <button className="w-full bg-[#2A254B] text-white p-2 rounded mt-4" onClick={handlePlaceOrder}>
+                <button
+                    className="w-full bg-[#2A254B] text-white p-2 rounded mt-4"
+                    onClick={handlePlaceOrder}
+                >
                     Place Order
                 </button>
             </div>
@@ -183,7 +241,7 @@ const Checkout = () => {
                         <div className="mt-4 border-t pt-4">
                             <p className="font-semibold">Subtotal: £{subtotal.toFixed(2)}</p>
                             <p className="text-red-500">Discount: £{discount.toFixed(2)}</p>
-                            <p className="font-bold text-lg">Total: £{(subtotal - discount).toFixed(2)}</p>
+                            <p className="font-bold text-lg">Total: £{(total).toFixed(2)}</p>
                         </div>
                     </div>
                 )}

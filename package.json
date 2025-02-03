@@ -34,7 +34,7 @@
 
     "@reduxjs/toolkit": "^2.5.0",
 
-    "@sanity/client": "^6.25.0",
+    "@sanity/client": "^6.27.2",
 
     "@sanity/image-url": "^1.1.0",
 
