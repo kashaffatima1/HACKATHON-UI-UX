@@ -7,7 +7,6 @@ import { groq } from "next-sanity";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import Swal from 'sweetalert2';
-import Popular from "../might"; // Import Popular component
 
 // Function to fetch the product
 async function getProduct(slug: string): Promise<Product> {
@@ -138,11 +137,6 @@ export default function ProductPage({ params }: ProductPageProps) {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* You might also like Section */}
-      <div className="mt-12">
-        <Popular />
       </div>
     </div>
   );
