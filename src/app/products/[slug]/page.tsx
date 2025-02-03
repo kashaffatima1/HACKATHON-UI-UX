@@ -39,7 +39,7 @@ const handleaddtocart = (e: React.MouseEvent, product: Product) => {
 };
 
 interface ProductPageProps {
-  params: { slug: string }; // Explicitly defining params type
+  params: Promise<{ slug: string }>; // Make params a Promise
 }
 
 export default function ProductPage({ params }: ProductPageProps) {
@@ -48,11 +48,12 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const fetchedProduct = await getProduct(params.slug);
+      const resolvedParams = await params; // Resolve the params promise
+      const fetchedProduct = await getProduct(resolvedParams.slug);
       setProduct(fetchedProduct);
     };
     fetchProduct();
-  }, [params.slug]);
+  }, [params]);
 
   if (!product) {
     return <p>Loading...</p>;
